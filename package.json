@@ -1,0 +1,33 @@
+{
+  "name": "sunhotels",
+  "version": "1.0.0",
+  "description": "Simplifies interaction with the Sunhotels API, allowing developers to easily search for hotels, retrieve booking information, and manage bookings programmatically.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mehdi-dev97/sunhotels.git"
+  },
+  "keywords": [
+    "Sunhotels",
+    "Hotels",
+    "Hotel booking",
+    "booking"
+  ],
+  "author": "Mehdi Ait Mouh <mehdi.aitmouh.dev@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mehdi-dev97/sunhotels/issues"
+  },
+  "homepage": "https://github.com/mehdi-dev97/sunhotels#readme",
+  "devDependencies": {
+    "tsup": "^8.0.2"
+  },
+  "dependencies": {
+    "xml-parser-xo": "^4.1.1"
+  }
+}
