@@ -24,6 +24,11 @@ export type Parameters = {
     exactDestinationMatch?: string,
     blockSuperdeal?: number,
     referencePointLatitude?: string,
-    referencePointLongitude?: string
+    referencePointLongitude?: string,
     totalRoomsInBatch?: string,
 }
+
+export type RoomType = {
+    roomId: number,
+    mealId: number
+};

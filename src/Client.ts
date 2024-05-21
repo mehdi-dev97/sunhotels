@@ -2,7 +2,7 @@ import { Parameters } from "./types";
 import { XMLParser } from "fast-xml-parser";
 
 /**
- * This class represents a Person.
+ * Client for interaction with api
  *
  * @author Mehdi Ait Mouh
  * @public
@@ -32,14 +32,18 @@ export class Client {
    *
    * @returns {Promise<{count: any, hotels: any}>} Promise contain count result and list of hotels
    */
-  get({}: Parameters): Promise<{
+  public get({}: Parameters): Promise<{
     count: number;
-    hotels: any;
+    items: any;
   }> {
     const params = new URLSearchParams(arguments[0]);
 
     params.set("userName", this.userName);
     params.set("password", this.password);
+    
+    if (params.get('hotelIDs') !== null && params.get('hotelIDs') !== undefined) {
+      params.set('destinationID', '');
+    }
     return fetch(
       `https://xml.sunhotels.net/15/PostGet/NonStaticXMLAPI.asmx/SearchV2?${params.toString()}`
     )
@@ -53,17 +57,19 @@ export class Client {
         if (data.hasOwnProperty("SearchResponse")) {
           throw new Error(data.SearchResponse.ReturnStatus.Exception);
         }
-        const hotels = data.hasOwnProperty('searchresult') ? data.searchresult.hotels.hotel : [];
+        let hotels = data.hasOwnProperty('searchresult') ? data.searchresult.hotels != '' ? data.searchresult.hotels.hotel : [] : [];
+        hotels = (hotels instanceof Array) ? hotels : [hotels];
         return {
           count: hotels.length,
-          hotels: hotels,
+          items: hotels
         };
       })
       .catch((reason) => {
         throw new Error(reason);
       })
       .finally(() => {
-        return { count: 0, hotels: 0 };
+        return { count: 0, items: 0 };
       });
   }
+
 }
