@@ -4,13 +4,16 @@
         "noImplicitAny": true,
         "esModuleInterop": true,
         "strictNullChecks": true,
+        "allowJs": true,
         "target": "ES2022",
         "moduleResolution": "NodeNext",
         "module": "NodeNext",
+        "resolveJsonModule": true,
         "declaration": true,
         "isolatedModules": true,
         "noEmit": true,
-        "outDir": "dist"
+        "outDir": "dist",
+        "types": ["jest"]
     },
     "include": ["src"],
     "exclude": ["node_modules"]
