@@ -1,4 +1,5 @@
 import { Helper } from "./Helpers";
+import { Order } from "./Order";
 import { Parameters } from "./types";
 import { XMLParser } from "fast-xml-parser";
 
@@ -25,6 +26,11 @@ export class Client {
   public helper;
 
   /**
+   * @type {Order}
+   */
+  public order;
+
+  /**
    * @param {string} userName Username given from api service provider.
    * @param {string} password Password given from api service provider.
    */
@@ -32,10 +38,13 @@ export class Client {
     this.userName = userName;
     this.password = password;
     this.helper = new Helper(userName, password);
+    this.order = new Order(userName, password);
   }
 
   /**
    * Get all hotels offer result from api.
+   * 
+   * @param {Parameters} params search query.
    *
    * @returns {Promise<{count: any, hotels: any}>} Promise contain count result and list of hotels
    */
