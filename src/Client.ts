@@ -1,3 +1,4 @@
+import { Helper } from "./Helpers";
 import { Parameters } from "./types";
 import { XMLParser } from "fast-xml-parser";
 
@@ -19,12 +20,18 @@ export class Client {
   protected password: string;
 
   /**
+   * @type {Helper}
+   */
+  public helper;
+
+  /**
    * @param {string} userName Username given from api service provider.
    * @param {string} password Password given from api service provider.
    */
   constructor(userName: string, password: string) {
     this.userName = userName;
     this.password = password;
+    this.helper = new Helper(userName, password);
   }
 
   /**
@@ -34,7 +41,7 @@ export class Client {
    */
   public get({}: Parameters): Promise<{
     count: number;
-    items: any;
+    hotels: any;
   }> {
     const params = new URLSearchParams(arguments[0]);
 
@@ -54,6 +61,7 @@ export class Client {
         return new XMLParser().parse(xml);
       })
       .then((data) => {
+        
         if (data.hasOwnProperty("SearchResponse")) {
           throw new Error(data.SearchResponse.ReturnStatus.Exception);
         }
@@ -61,14 +69,14 @@ export class Client {
         hotels = (hotels instanceof Array) ? hotels : [hotels];
         return {
           count: hotels.length,
-          items: hotels
+          hotels: hotels
         };
       })
       .catch((reason) => {
         throw new Error(reason);
       })
       .finally(() => {
-        return { count: 0, items: 0 };
+        return { count: 0, hotels: 0 };
       });
   }
 
