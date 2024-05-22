@@ -28,7 +28,24 @@ export type Parameters = {
     totalRoomsInBatch?: string,
 }
 
-export type RoomType = {
-    roomId: number,
-    mealId: number
-};
+export type OrderParams = {
+    currency: string,
+    language: string,
+    email: string,
+    checkInDate: string,
+    checkOutDate: string,
+    roomId: string,
+    mealId: string,
+    searchPrice: number,
+    rooms: number,
+    adults: number,
+    children: number,
+    infant: number,
+    yourRef: string,
+    customerCountry: string,
+    hotelId?: number,
+    roomtypeId?: number,
+    blockSuperDeal?: boolean,
+    showPriceBreakdown?: string,
+    B2C?: string,
+}
