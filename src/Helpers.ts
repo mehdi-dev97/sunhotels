@@ -148,7 +148,11 @@ export class Helper {
   /**
    * Get all possible search destinations.
    *
-   * @param {string} lang languague translation of destinations
+   * @param {string} lang languague translation
+   * @param {string | null} destinationCode
+   * @param {string | null} sortBy
+   * @param {string | null} sortOrder
+   * @param {string | null} exactDestinationMatch
    *
    * @returns {Promise<{count: any, destinations: any}>} Promise contain count result and list of destinations
    */
