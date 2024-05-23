@@ -191,4 +191,23 @@ client.helper.destinations("en", "CMN");
  destinations: [{ destination_id: 244, DestinationCode: "MA", DestinationName: "Marrakesh",... }, ...]
 }
 
+/**
+* Get hotel information (name, location, description, images, room types...)
+*
+* @param {lang} lang
+* @param {string} hotelIDs
+*
+* @returns {Promise<any>} Promise contain object of hotel information
+*/
+client.helper.hotel("en", "23238");
+// Outputs
+{ 
+  type: 'Hotel',
+  name: 131131,
+  'hotel.addr.country': 'Morocco',
+  'hotel.addr.countrycode': 'MA',
+  'hotel.address': '131   Marrakech  Morocco',
+  description: '...',
+}
+
 ```
