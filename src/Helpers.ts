@@ -39,7 +39,7 @@ export class Helper {
    *
    * @returns {Promise<{count: any, languagues: any}>} Promise contain count result and list of languagues
    */
-  public languagues(): Promise<{
+  public async languagues(): Promise<{
     count: number;
     languagues: any;
   }> {
@@ -76,7 +76,7 @@ export class Helper {
    *
    * @returns {Promise<{count: any, features: any}>} Promise contain count result and list of features
    */
-  public features(lang: string): Promise<{
+  public async features(lang: string): Promise<{
     count: number;
     features: any;
   }> {
@@ -114,7 +114,7 @@ export class Helper {
    *
    * @returns {Promise<{count: any, meals: any}>} Promise contain count result and list of meals
    */
-  public meals(lang: string): Promise<{
+  public async meals(lang: string): Promise<{
     count: number;
     meals: any;
   }> {
@@ -156,7 +156,7 @@ export class Helper {
    *
    * @returns {Promise<{count: any, destinations: any}>} Promise contain count result and list of destinations
    */
-  public destinations(
+  public async destinations(
     lang: string,
     destinationCode: string | null,
     sortBy: string | null,
@@ -202,7 +202,7 @@ export class Helper {
    *
    * @returns {Promise<{count: any, themes: any}>} Promise contain count result and list of themes
    */
-  public themes(): Promise<{
+  public async themes(): Promise<{
     count: number;
     themes: any;
   }> {
@@ -230,5 +230,38 @@ export class Helper {
       .finally(() => {
         return { count: 0, themes: 0 };
       });
+  }
+
+  /**
+   * Get hotel information (name, location, description, images, room types...)
+   *
+   * @param {lang} lang
+   * @param {string} hotelIDs
+   *
+   * @returns {Promise<any>} Promise contain object of hotel information
+   */
+  public async hotel(lang: string, hotelIDs: string): Promise<any> {
+    this.params.set("language", lang);
+    this.params.set("hotelIDs", hotelIDs);
+    return fetch(
+      `https://xml.sunhotels.net/15/PostGet/NonStaticXMLAPI.asmx/GetStaticHotelsAndRooms?${this.params.toString()}&destination=&resortIDs=&accommodationTypes=&sortBy=&sortOrder=&exactDestinationMatch=`
+    )
+      .then((response) => {
+        return response.text();
+      })
+      .then((xml) => {
+        return new XMLParser().parse(xml);
+      })
+      .then((data) => {
+        console.log(data);
+        if (data.hasOwnProperty("SearchResponse")) {
+          throw new Error(data.SearchResponse.ReturnStatus.Exception);
+        }
+        return data.getStaticHotelsAndRoomsResult.hotels.hotel ?? {};
+      })
+      .catch((reason) => {
+        throw new Error(reason);
+      })
+      .finally(() => {});
   }
 }
