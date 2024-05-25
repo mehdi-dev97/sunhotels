@@ -9,7 +9,6 @@ export type Parameters = {
   currencies: string;
   numberOfAdults: number;
   numberOfChildren: number;
-  yourRef: string;
   hotelIDs?: string;
   childrenAges?: string;
   infant?: number;
