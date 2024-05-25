@@ -367,7 +367,7 @@ const params: BookingGetter = {
      createdDateTo: "",
      arrivalDateFrom: "",
      arrivalDateTo: "",
-     showGuests: 0 
+     showGuests: 0
 }
 
 await client.order.get(params).then((resp) => {
@@ -418,6 +418,29 @@ await client.order.get(params).then((resp) => {
   currentCancellationPolicyDeadline: '2024-06-03T00:00:00'
 }
 
+```
+
+### Cancel booking
+
+Cancel an existing booking. In case the booking also has a transfer booking attached, the transfer booking will also be cancelled.
+
+```javascript
+import { Client } from "sunhotels";
+
+const client = new Client("YOUR_API_USERNAME", "YOUR_API_PASSWORD");
+
+await client.order.cancel("order_id", "lang").then((resp) => {
+  /* 
+    if 
+      code === 1 booking has been cancelled successfulty 
+      code === -2 has already been cancelled or probably cancellation have error
+  */
+  if (resp.code == 1) {
+    console.log(rep.cancellationPaymentMethod);
+  } else {
+    console.log(rep.message);
+  }
+});
 ```
 
 ## Contributors :

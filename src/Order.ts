@@ -58,9 +58,9 @@ export default class Order {
           status: true,
           preBookCode: data.preBookResult.PreBookCode,
           price: data.preBookResult.Price,
-          notes: [data.preBookResult.Notes.Note] ?? [],
+          notes: [data.preBookResult.Notes.Note] || [],
           cancellationPolicies:
-            [data.preBookResult.CancellationPolicies.CancellationPolicy] ?? [],
+            [data.preBookResult.CancellationPolicies.CancellationPolicy] || [],
         };
       })
       .catch((reason) => {
@@ -76,7 +76,7 @@ export default class Order {
    * @returns {string} formated string
    */
   protected format(str: string): string {
-    const frenchAccentsMap: any = {
+    const accentsMap: any = {
         à: "a",
         á: "a",
         â: "a",
@@ -100,11 +100,9 @@ export default class Order {
         ç: "c",
         Ç: "C",
       },
-      regex = /[àáâäèéêëìíîïòóôöùúûüçÇ\s]/gi;
+      regex = /[àáâäèéêëìíîïòóôöùúûüçÇ]/gi;
 
-    return str
-      .replaceAll(regex, (match) => frenchAccentsMap[match] || "")
-      .toLowerCase();
+    return str.replaceAll(regex, (match) => accentsMap[match]);
   }
 
   /**
@@ -223,6 +221,51 @@ export default class Order {
           throw new Error(data.getBookingInformationResult.Error.Message);
         }
         return data.getBookingInformationResult.bookings.booking;
+      })
+      .catch((reason) => {
+        throw new Error(reason);
+      });
+  }
+
+  /**
+   * booking hotel room
+   *
+   * @param {string} bookingID
+   * @param {string} language
+   *
+   * @returns {Promise<any>}
+   */
+  public async cancel(bookingID: string, language: string) {
+    const params = new URLSearchParams({
+      userName: this.userName,
+      password: this.password,
+      bookingID: bookingID,
+      language: language,
+    });
+
+    return fetch(
+      `https://xml.sunhotels.net/15/PostGet/NonStaticXMLAPI.asmx/CancelBooking?${params.toString()}`
+    )
+      .then((response) => {
+        return response.text();
+      })
+      .then((xml) => {
+        return new XMLParser().parse(xml);
+      })
+      .then((data) => {
+        if (data.hasOwnProperty("SearchResponse")) {
+          throw new Error(data.SearchResponse.ReturnStatus.Exception);
+        }
+        if (data.result.hasOwnProperty("Error")) {
+          return {
+            code: data.result.Code,
+            message: data.result.Error.Message,
+          };
+        }
+        return {
+          code: data.result.Code,
+          cancellationPaymentMethod: data.result.Code,
+        };
       })
       .catch((reason) => {
         throw new Error(reason);
