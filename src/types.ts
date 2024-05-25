@@ -1,51 +1,94 @@
 export type Parameters = {
-    destinationID: number,
-    checkInDate: string,
-    checkOutDate: string,
-    numberOfRooms: number,
-    accommodationTypes: string,
-    CustomerCountry: string,
-    language: string,
-    currencies: string,
-    numberOfAdults: number,
-    numberOfChildren: number,
-    hotelIDs?: string,
-    childrenAges?: string,
-    infant?: number,
-    minPrice?: number,
-    maxPrice?: number,
-    minStarRating?: number,
-    maxStarRating?: number,
-    featureIds?: string,
-    mealIds?: string,
-    themeIds?: string,
-    sortBy?: string,
-    sortOrder?: string,
-    exactDestinationMatch?: string,
-    blockSuperdeal?: number,
-    referencePointLatitude?: string,
-    referencePointLongitude?: string,
-    totalRoomsInBatch?: string,
-}
+  destinationID: number;
+  checkInDate: string;
+  checkOutDate: string;
+  numberOfRooms: number;
+  accommodationTypes: string;
+  CustomerCountry: string;
+  language: string;
+  currencies: string;
+  numberOfAdults: number;
+  numberOfChildren: number;
+  yourRef: string;
+  hotelIDs?: string;
+  childrenAges?: string;
+  infant?: number;
+  minPrice?: number;
+  maxPrice?: number;
+  minStarRating?: number;
+  maxStarRating?: number;
+  featureIds?: string;
+  mealIds?: string;
+  themeIds?: string;
+  sortBy?: string;
+  sortOrder?: string;
+  exactDestinationMatch?: string;
+  blockSuperdeal?: number;
+  referencePointLatitude?: string;
+  referencePointLongitude?: string;
+  totalRoomsInBatch?: string;
+};
 
-export type OrderParams = {
-    currency: string,
-    language: string,
-    email: string,
-    checkInDate: string,
-    checkOutDate: string,
-    roomId: string,
-    mealId: string,
-    searchPrice: number,
-    rooms: number,
-    adults: number,
-    children: number,
-    infant: number,
-    yourRef: string,
-    customerCountry: string,
-    hotelId?: number,
-    roomtypeId?: number,
-    blockSuperDeal?: boolean,
-    showPriceBreakdown?: string,
-    B2C?: string,
-}
+export type PreBook = {
+  currency: string;
+  language: string;
+  email: string;
+  checkInDate: string;
+  checkOutDate: string;
+  roomId: string;
+  mealId: string;
+  searchPrice: number;
+  rooms: number;
+  adults: number;
+  children: number;
+  infant: number;
+  customerCountry: string;
+  childrenAges: string;
+  hotelId: string;
+  roomtypeId: string;
+  blockSuperDeal: string;
+  specialrequest: string;
+  yourRef: string;
+  showPriceBreakdown: string;
+  B2C: string;
+};
+
+export type Book = {
+  currency: string;
+  language: string;
+  email: string;
+  checkInDate: string;
+  checkOutDate: string;
+  roomId: string;
+  mealId: string;
+  rooms: string;
+  adults: string;
+  children: string;
+  infant: string;
+  customerCountry: string;
+  specialrequest: string;
+  yourRef: string;
+  b2c: string;
+  preBookCode: string;
+  customerEmail: string;
+  paymentMethodId: string;
+  creditCardType: string;
+  creditCardNumber: string;
+  creditCardHolder: string;
+  creditCardCVV2: string;
+  creditCardExpYear: string;
+  creditCardExpMonth: string;
+  invoiceRef: string;
+  commissionAmountInHotelCurrency: string;
+};
+
+export type BookingGetter = {
+  language: string;
+  bookingID: string;
+  reference: string;
+  createdDateFrom: string;
+  createdDateTo: string;
+  arrivalDateFrom: string;
+  arrivalDateTo: string;
+  showGuests: number;
+};
