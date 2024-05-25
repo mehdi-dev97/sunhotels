@@ -91,7 +91,7 @@ client
   transfer: 1,
   roomtypes: { roomtype: [ [Object], [Object] ] }}, ...
   ...]
-} 
+}
 
 // Get a specific hotel using the id or you can pass in the destructuring params.
 params.hotelIDs = "12382";
@@ -123,7 +123,7 @@ client
 
 If you want more informations about API parameters, be sure to visit the [documentation](http://xml.sunhotels.net/15/XML%20spec%20Sunhotels%20v15.pdf).
 
-# Helpers
+## Helpers
 
 You have many helpers at your disposal to make the components interact correctly with each other here is an example of the helpers that will be useful in building your system. These helpers are used for example in the filter of hotels by meals or by features.
 
@@ -131,7 +131,7 @@ You have many helpers at your disposal to make the components interact correctly
 
 import { Client } from 'sunhotels';
 
-const client = new Clinet("YOUR_API_USERNAME", "YOUR_API_PASSWORD");
+const client = new Client("YOUR_API_USERNAME", "YOUR_API_PASSWORD");
 
 /**
 * get available languagues in sunhotels system.
@@ -157,7 +157,7 @@ client.helper.features("en");
 {
  count: 3,
  features: [{ name: "Wifi" }, ...]
-} 
+}
 
 /**
 * get all available meals based on language
@@ -201,7 +201,7 @@ client.helper.destinations("en", "CMN");
 */
 client.helper.hotel("en", "23238");
 // Outputs
-{ 
+{
   type: 'Hotel',
   name: 131131,
   'hotel.addr.country': 'Morocco',
@@ -211,3 +211,215 @@ client.helper.hotel("en", "23238");
 }
 
 ```
+
+## Booking
+
+### PreBook
+
+This method is to be used as step 2 in the context of a 3 step booking process, after the search and before the booking request. The purpose of the PreBook call is to validate the information retrieved in search. This will allow you to alert the final customer of any changes prior to completing the booking.
+
+```javascript
+import { Client } from "sunhotels";
+
+const client = new Client("YOUR_API_USERNAME", "YOUR_API_PASSWORD");
+
+client.order.preBook({
+  currency: "USD",
+  language: "en",
+  searchPrice: 38,
+  checkInDate: "2024-06-01",
+  checkOutDate: "2024-06-02",
+  email: "mehdi.aitmouh.dev@gmail.com",
+  rooms: 1,
+  yourRef: "ZERF7832",
+  roomId: "176936782",
+  mealId: "3",
+  adults: 1,
+  children: 0,
+  infant: 0,
+  customerCountry: "FR",
+  childrenAges: "",
+  hotelId: "",
+  roomtypeId: "",
+  blockSuperDeal: "0",
+  showPriceBreakdown: "",
+  B2C: "",
+}).then((resp) => {
+    console.log(resp.status);
+    console.log(resp.preBookCode);
+    console.log(resp.notes);
+    console.log(resp.cancellationPolicies);
+}).catch((err) => console.error(err));
+// Outputs
+{
+  status: true,
+  preBookCode: '0613e4c3-0baf-4a2e-9a3a-e581b30d1ca6', // used in booking confirmation
+  price: 38,
+  notes: [...], // notice from hotel about the booking
+  cancellationPolicies: [...] // deadline of cancellation
+}
+
+```
+
+### Book
+
+This function is used to book a room/apartment/villa. Take in account that you can only use latin alphabet characters in the guests names (adult and children), `yourRef`, `invoiceRef` and `specialrequest` tags.
+
+```javascript
+import { Client } from "sunhotels";
+
+const client = new Client("YOUR_API_USERNAME", "YOUR_API_PASSWORD");
+
+const params: Book = {
+  currency: "USD",
+  language: "en",
+  checkInDate: "2024-06-01",
+  checkOutDate: "2024-06-02",
+  email: "mehdi.aitmouh.dev@gmail.com",
+  rooms: "1",
+  roomId: "176936782",
+  mealId: "3",
+  adults: "1",
+  children: "0",
+  infant: "0",
+  customerCountry: "FR",
+  b2c: "",
+  specialrequest: "",
+  yourRef: "DERF89",
+  preBookCode: "84838394f-3324-439-a132-50592450997f",
+  customerEmail: "mehdi.aitmouh.dev@gmail.com",
+  paymentMethodId: "1",
+  creditCardType: "",
+  creditCardNumber: "",
+  creditCardHolder: "",
+  creditCardCVV2: "",
+  creditCardExpYear: "",
+  creditCardExpMonth: "",
+  invoiceRef: "",
+  commissionAmountInHotelCurrency: "",
+};
+
+const guests = [
+  {
+    type: "adult",
+    firstName: "Mehdi",
+    lastName: "Ait Mouh",
+  },
+];
+
+client.order.book(params, guests).then((resp) => {
+  console.log(resp.bookingnumber)
+  console.log(resp["bookingnumber"]);
+});
+// outputs
+
+{
+  bookingnumber: '237287',
+  'hotel.id': 38828382,
+  'hotel.name': 'Hotel Inou Agadir',
+  'hotel.address': 'Centre Aourir Km 12 Route Taghazout  80750  Agadir  Morocco',
+  'hotel.phone': '+212 666 560 600',
+  numberofrooms: 1,
+  'room.type': 'Single room',
+  'room.englishType': 'Single room',
+  mealId: 3,
+  meal: 'Breakfast',
+  mealLabel: '',
+  englishMeal: 'Breakfast',
+  englishMealLabel: '',
+  checkindate: '2024-06-01T00:00:00',
+  checkoutdate: '2024-06-02T00:00:00',
+  prices: [Object],
+  currency: 'USD',
+  bookingdate: '2024-05-25T15:29:06.633',
+  'bookingdate.timezone': 'GMT+02:00:00',
+  cancellationpolicies: [Object],
+  'earliestNonFreeCancellationDate.CET': '2024-05-25T14:29:06.633',
+  'earliestNonFreeCancellationDate.Local': '2024-05-25T15:29:06.633',
+  yourref: 'DERF89',
+  voucher: 'vocher link',
+  bookedBy: 'Booking service provider',
+  transferbooked: 0,
+  paymentmethod: '',
+  hotelNotes: [Object],
+  englishHotelNotes: [Object],
+  roomNotes: '',
+  englishRoomNotes: '',
+  invoiceref: ''
+}
+
+```
+
+### Get booking
+
+Get information about an existing booking or all bookings created within a specific date range or all bookings with an arrival date within a specific date range.
+
+```javascript
+import { Client } from "sunhotels";
+
+const client = new Client("YOUR_API_USERNAME", "YOUR_API_PASSWORD");
+
+const params: BookingGetter = {
+     language: "en",
+     bookingID: "237287",
+     reference: "",
+     createdDateFrom: "",
+     createdDateTo: "",
+     arrivalDateFrom: "",
+     arrivalDateTo: "",
+     showGuests: 0 
+}
+
+await client.order.get(params).then((resp) => {
+  console.log(resp.bookingnumber)
+  console.log(resp["bookingnumber"]);
+});
+
+// Outputs
+{
+  bookingnumber: '237287',
+  'hotel.id': 281280,
+  'hotel.name': 'Hotel Inou Agadir',
+  'hotel.address': 'Centre Aourir Km 12 Route Taghazout  80750  Agadir  Morocco',
+  'hotel.phone': '+212 666 560 600',
+  numberofrooms: 1,
+  'room.type': 'Single room',
+  'room.englishType': 'Single room',
+  mealId: 3,
+  meal: 'Breakfast',
+  mealLabel: '',
+  englishMeal: 'Breakfast',
+  englishMealLabel: '',
+  checkindate: '2024-06-01T00:00:00',
+  checkoutdate: '2024-06-02T00:00:00',
+  prices: { price: [ 38, 35 ] },
+  currency: 'USD',
+  bookingdate: '2024-05-25T15:29:06.633',
+  'bookingdate.timezone': 'GMT+02:00:00',
+  cancellationpolicies: {
+    deadline: '',
+    percentage: 100,
+    text: 'Please note that this room is non-refundable and non-amendable. If the booking is cancelled, no money will be refunded.'
+  },
+  'earliestNonFreeCancellationDate.CET': '2024-05-25T14:29:06.633',
+  'earliestNonFreeCancellationDate.Local': '2024-05-25T15:29:06.633',
+  yourref: 'DERF89',
+   voucher: 'vocher link',
+  bookedBy: 'Booking service provider',
+  transferbooked: 0,
+  paymentmethod: '',
+  hotelNotes: { hotelNote: [ [Object], [Object], [Object] ] },
+  englishHotelNotes: { englishHotelNote: [ [Object], [Object], [Object] ] },
+  roomNotes: '',
+  englishRoomNotes: '',
+  invoiceref: '',
+  bookingStatus: 'Active',
+  currentCancellationPolicyFee: { fee: [ 38, 35 ] },
+  currentCancellationPolicyDeadline: '2024-06-03T00:00:00'
+}
+
+```
+
+## Contributors :
+
+Mehdi Ait Mouh <mehdi.aitmouh.dev@gmail.com> (software engineer)

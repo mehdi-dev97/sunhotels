@@ -1,5 +1,5 @@
-import { Helper } from "./Helpers";
-import { Order } from "./Order";
+import Helper from "./Helpers";
+import Order from "./Order";
 import { Parameters } from "./types";
 import { XMLParser } from "fast-xml-parser";
 
@@ -9,7 +9,7 @@ import { XMLParser } from "fast-xml-parser";
  * @author Mehdi Ait Mouh
  * @public
  */
-export class Client {
+export default class Client {
   /**
    * @type {string}
    */

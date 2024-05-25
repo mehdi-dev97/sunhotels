@@ -6,7 +6,7 @@ import { XMLParser } from "fast-xml-parser";
  * @author Mehdi Ait Mouh
  * @public
  */
-export class Helper {
+export default class Helper {
   /**
    * @type {string}
    */
