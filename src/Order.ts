@@ -1,7 +1,7 @@
 import { XMLParser } from "fast-xml-parser";
 import { PreBook, Book, BookingGetter } from "./types";
 
-export default class Order {
+export class Order {
   /**
    * @type {string}
    */

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "@jest/globals";
-import Client from "../src/Client";
+import { Client } from "../src/Client";
 
 describe("Helper module test", () => {
   const client = new Client("API_USERNAME", "API_PASSWORD");

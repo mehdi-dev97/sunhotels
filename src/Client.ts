@@ -1,5 +1,5 @@
-import Helper from "./Helpers";
-import Order from "./Order";
+import { Helper } from "./Helpers";
+import { Order } from "./Order";
 import { Parameters } from "./types";
 import { XMLParser } from "fast-xml-parser";
 
@@ -9,7 +9,7 @@ import { XMLParser } from "fast-xml-parser";
  * @author Mehdi Ait Mouh
  * @public
  */
-export default class Client {
+export class Client {
   /**
    * @type {string}
    */
@@ -43,7 +43,7 @@ export default class Client {
 
   /**
    * Get all hotels offer result from api.
-   * 
+   *
    * @param {Parameters} params search query.
    *
    * @returns {Promise<{count: any, hotels: any}>} Promise contain count result and list of hotels
@@ -56,9 +56,12 @@ export default class Client {
 
     params.set("userName", this.userName);
     params.set("password", this.password);
-    
-    if (params.get('hotelIDs') !== null && params.get('hotelIDs') !== undefined) {
-      params.set('destinationID', '');
+
+    if (
+      params.get("hotelIDs") !== null &&
+      params.get("hotelIDs") !== undefined
+    ) {
+      params.set("destinationID", "");
     }
     return fetch(
       `https://xml.sunhotels.net/15/PostGet/NonStaticXMLAPI.asmx/SearchV2?${params.toString()}`
@@ -70,15 +73,18 @@ export default class Client {
         return new XMLParser().parse(xml);
       })
       .then((data) => {
-        
         if (data.hasOwnProperty("SearchResponse")) {
           throw new Error(data.SearchResponse.ReturnStatus.Exception);
         }
-        let hotels = data.hasOwnProperty('searchresult') ? data.searchresult.hotels != '' ? data.searchresult.hotels.hotel : [] : [];
-        hotels = (hotels instanceof Array) ? hotels : [hotels];
+        let hotels = data.hasOwnProperty("searchresult")
+          ? data.searchresult.hotels != ""
+            ? data.searchresult.hotels.hotel
+            : []
+          : [];
+        hotels = hotels instanceof Array ? hotels : [hotels];
         return {
           count: hotels.length,
-          hotels: hotels
+          hotels: hotels,
         };
       })
       .catch((reason) => {
@@ -88,5 +94,4 @@ export default class Client {
         return { count: 0, hotels: 0 };
       });
   }
-
 }

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "@jest/globals";
-import Client from "../src/Client";
+import { Client } from "../src/Client";
 import { Parameters } from "../src/types";
 
 describe("Client module", () => {
