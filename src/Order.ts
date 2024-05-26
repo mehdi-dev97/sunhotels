@@ -173,7 +173,6 @@ export class Order {
         return response.text();
       })
       .then((xml) => {
-        console.log(xml);
         return new XMLParser().parse(xml);
       })
       .then((data) => {
@@ -213,7 +212,6 @@ export class Order {
         return new XMLParser().parse(xml);
       })
       .then((data) => {
-        console.log(data.getBookingInformationResult.bookings.booking);
         if (data.hasOwnProperty("SearchResponse")) {
           throw new Error(data.SearchResponse.ReturnStatus.Exception);
         }
