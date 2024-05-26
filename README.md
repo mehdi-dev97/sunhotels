@@ -309,7 +309,6 @@ const guests = [
 
 client.order.book(params, guests).then((resp) => {
   console.log(resp.bookingnumber)
-  console.log(resp["bookingnumber"]);
 });
 // outputs
 
@@ -359,7 +358,7 @@ import { Client } from "sunhotel";
 
 const client = new Client("YOUR_API_USERNAME", "YOUR_API_PASSWORD");
 
-const params: BookingGetter = {
+const params = {
      language: "en",
      bookingID: "237287",
      reference: "",
@@ -369,10 +368,8 @@ const params: BookingGetter = {
      arrivalDateTo: "",
      showGuests: 0
 }
-
-await client.order.get(params).then((resp) => {
+client.order.get(params).then((resp) => {
   console.log(resp.bookingnumber)
-  console.log(resp["bookingnumber"]);
 });
 
 // Outputs
@@ -429,17 +426,13 @@ import { Client } from "sunhotel";
 
 const client = new Client("YOUR_API_USERNAME", "YOUR_API_PASSWORD");
 
-await client.order.cancel("order_id", "lang").then((resp) => {
+client.order.cancel("order_id", "lang").then((resp) => {
   /* 
     if 
       code === 1 booking has been cancelled successfulty 
       code === -2 has already been cancelled or probably cancellation have error
   */
-  if (resp.code == 1) {
-    console.log(rep.cancellationPaymentMethod);
-  } else {
-    console.log(rep.message);
-  }
+  console.log(resp);
 });
 ```
 
