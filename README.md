@@ -15,7 +15,7 @@ You will need to join for [sunhotels](https://www.sunhotels.com/en/join-us-form/
 ## Quick Usage Example
 
 ```javascript
-import { Client } from "sunhotels";
+import Client from "sunhotels";
 
 const client = new Client("YOUR_API_USERNAME", "YOUR_API_PASSWORD"),
   params = {
@@ -47,7 +47,7 @@ client
 The client can be initialized directly.
 
 ```javascript
-import { Client } from "sunhotels";
+import Client from "sunhotels";
 
 // Initialize using username and password
 const client = new Client("YOUR_API_USERNAME", "YOUR_API_PASSWORD");
@@ -129,7 +129,7 @@ You have many helpers at your disposal to make the components interact correctly
 
 ```javascript
 
-import { Client } from 'sunhotels';
+import Client from 'sunhotels';
 
 const client = new Client("YOUR_API_USERNAME", "YOUR_API_PASSWORD");
 
@@ -219,7 +219,7 @@ client.helper.hotel("en", "23238");
 This method is to be used as step 2 in the context of a 3 step booking process, after the search and before the booking request. The purpose of the PreBook call is to validate the information retrieved in search. This will allow you to alert the final customer of any changes prior to completing the booking.
 
 ```javascript
-import { Client } from "sunhotels";
+import Client from 'sunhotels';
 
 const client = new Client("YOUR_API_USERNAME", "YOUR_API_PASSWORD");
 
@@ -266,7 +266,7 @@ client.order.preBook({
 This function is used to book a room/apartment/villa. Take in account that you can only use latin alphabet characters in the guests names (adult and children), `yourRef`, `invoiceRef` and `specialrequest` tags.
 
 ```javascript
-import { Client } from "sunhotels";
+import Client from 'sunhotels';
 
 const client = new Client("YOUR_API_USERNAME", "YOUR_API_PASSWORD");
 
@@ -355,7 +355,7 @@ client.order.book(params, guests).then((resp) => {
 Get information about an existing booking or all bookings created within a specific date range or all bookings with an arrival date within a specific date range.
 
 ```javascript
-import { Client } from "sunhotels";
+import Client from 'sunhotels';
 
 const client = new Client("YOUR_API_USERNAME", "YOUR_API_PASSWORD");
 
@@ -425,7 +425,7 @@ await client.order.get(params).then((resp) => {
 Cancel an existing booking. In case the booking also has a transfer booking attached, the transfer booking will also be cancelled.
 
 ```javascript
-import { Client } from "sunhotels";
+import Client from 'sunhotels';
 
 const client = new Client("YOUR_API_USERNAME", "YOUR_API_PASSWORD");
 
