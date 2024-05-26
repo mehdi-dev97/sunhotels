@@ -254,16 +254,7 @@ export class Order {
         if (data.hasOwnProperty("SearchResponse")) {
           throw new Error(data.SearchResponse.ReturnStatus.Exception);
         }
-        if (data.result.hasOwnProperty("Error")) {
-          return {
-            code: data.result.Code,
-            message: data.result.Error.Message,
-          };
-        }
-        return {
-          code: data.result.Code,
-          cancellationPaymentMethod: data.result.Code,
-        };
+        return data.result;
       })
       .catch((reason) => {
         throw new Error(reason);

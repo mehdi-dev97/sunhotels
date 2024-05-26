@@ -253,7 +253,6 @@ export class Helper {
         return new XMLParser().parse(xml);
       })
       .then((data) => {
-        console.log(data);
         if (data.hasOwnProperty("SearchResponse")) {
           throw new Error(data.SearchResponse.ReturnStatus.Exception);
         }
