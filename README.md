@@ -58,7 +58,7 @@ const client = new Client("YOUR_API_USERNAME", "YOUR_API_PASSWORD");
 If you want to search for the rooms/apartments/villas available in the system on a given date, use the get method. This method takes as argument a destructuring object which contains all the query strings to filter the results according to the needs of the client whether it is the date or number of rooms or number of adults etc...
 
 ```javascript
-import { Client } from "sunhotels";
+import Client from 'sunhotels';
 
 const params = {
   destinationID: 244, // you can get ids of all destination from helpers
